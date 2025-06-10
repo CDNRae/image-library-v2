@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ES2020"],
+    "noEmit": true
+  },
+  "include": ["image-library/src/renderer/**/*"]
+}
