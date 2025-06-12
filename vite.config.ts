@@ -1,11 +1,32 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  root: 'src/renderer',
-  plugins: [react()],
-  build: {
-    outDir: '../../dist/renderer',
-    emptyOutDir: true
-  }
+  cacheDir: "./.vite",
+  test: {
+    projects: [
+      {
+        // Database tests
+        test: {
+          include: ["image-library/src/main/__tests__/database.test.tsx"],
+          environment: "node",
+        },
+      },
+      {
+        // Renderer tests
+        test: {
+          include: ["image-library/src/renderer/__tests__/**/*.test.{ts,tsx}"],
+          environment: "jsdom",
+          setupFiles: ["./vitest.setup.ts"],
+        },
+      },
+      {
+        // Main process tests (excluding database tests)
+        test: {
+          include: ["image-library/src/main/__tests__/**/*.test.{ts,tsx}"],
+          exclude: ["image-library/src/main/__tests__/database.test.tsx"], // Exclude database tests from main process tests
+          environment: "node",
+        },
+      },
+    ],
+  },
 });
